@@ -11,10 +11,11 @@ urllib3.disable_warnings()
 
 
 class BiliBiliLiveRecorder(BiliBiliLive):
-    def __init__(self, room_id):
+    def __init__(self, room_id, check_interval=5*60):
         super().__init__(room_id)
         self.inform = utils.inform
         self.print = utils.print_log
+        self.check_interval = check_interval
 
     def check(self, interval):
         while True:
@@ -27,7 +28,7 @@ class BiliBiliLiveRecorder(BiliBiliLive):
                 else:
                     self.print(self.room_id, '等待开播')
             except Exception as e:
-                self.print(self.room_id, 'Error')
+                self.print(self.room_id, 'Error:' + str(e))
             time.sleep(interval)
         return self.get_live_urls()
 
@@ -36,18 +37,18 @@ class BiliBiliLiveRecorder(BiliBiliLive):
             self.print(self.room_id, '√ 正在录制...' + self.room_id)
             subprocess.call("wget -U \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36\" --referer \"https://live.bilibili.com/" + self.room_id + "\" -O \"" + output_filename + "\" \"" + record_url + "\"",shell=True)
         except Exception as e:
-            self.print(self.room_id, 'Error while recording')
+            self.print(self.room_id, 'Error while recording:' + str(e))
 
     def run(self):
         while True:
             try:
-                urls = self.check(interval=30)
+                urls = self.check(interval=self.check_interval)
                 filename = utils.generate_filename(self.room_id)
                 c_filename = os.path.join(os.getcwd(), 'files', filename)
                 self.record(urls[0], c_filename)
                 self.print(self.room_id, '录制完成' + c_filename)
             except Exception as e:
-                self.print(self.room_id, 'Error while checking or recording')
+                self.print(self.room_id, 'Error while checking or recording:' + str(e))
 
 
 if __name__ == '__main__':
