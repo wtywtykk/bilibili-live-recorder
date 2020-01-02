@@ -1,0 +1,15 @@
+{
+    "msg":{
+        "recording":"√ 正在录制...",
+        "parameter_error":"请检查输入的命令是否正确 例如：python3 run.py 10086",
+        "check_error":"检查直播间状态时出错: ",
+        "record_error":"录制时出错: ",
+        "run_error":"错误: ",
+        "waiting":"等待开播",
+        "finish":"录制完成",
+        "start":"开始录制"
+    },
+    "label":{
+        "living_room":"直播间："
+    }
+}
