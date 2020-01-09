@@ -5,6 +5,7 @@ class BiliBiliLive(BaseLive):
     def __init__(self, room_id):
         super().__init__()
         self.room_id = room_id
+        self.parsed_room_id = room_id
         self.site_name = 'BiliBili'
         self.site_domain = 'live.bilibili.com'
 
@@ -18,8 +19,8 @@ class BiliBiliLive(BaseLive):
             data['site_name'] = self.site_name
             data['site_domain'] = self.site_domain
             data['status'] = response['data']['live_status'] == 1
-        self.room_id = str(response['data']['room_id'])  # 解析完整 room_id
-        response = self.common_request('GET', user_info_url, {'roomid': self.room_id}).json()
+        self.parsed_room_id = str(response['data']['room_id'])  # 解析完整 room_id
+        response = self.common_request('GET', user_info_url, {'roomid': self.parsed_room_id}).json()
         data['hostname'] = response['data']['info']['uname']
         return data
 
@@ -27,14 +28,14 @@ class BiliBiliLive(BaseLive):
         live_urls = []
         url = 'https://api.live.bilibili.com/room/v1/Room/playUrl'
         stream_info = self.common_request('GET', url, {
-            'cid': self.room_id,
+            'cid': self.parsed_room_id,
             'otype': 'json',
             'quality': 0,
             'platform': 'web'
         }).json()
         best_quality=stream_info['data']['accept_quality'][0][0]
         stream_info = self.common_request('GET', url, {
-            'cid': self.room_id,
+            'cid': self.parsed_room_id,
             'otype': 'json',
             'quality': best_quality,
             'platform': 'web'

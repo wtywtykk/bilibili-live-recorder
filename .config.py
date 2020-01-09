@@ -1,10 +1,8 @@
-# 是否开启通知功能
-enable_inform = False
-# Server酱 api地址
-inform_url = 'https://sc.ftqq.com/1234.send'
-# 直播间ID （list）
-rooms = ['']  # '1075', '547028', '8694442'
+# 直播间ID （dict）
+rooms = {'1111111':'name','222222':'name2'}
 # env,终端环境有时只支持ascii
 env = "origin"
 # 检测是否开播间隔(秒)
 check_interval=5*60
+# ffmpeg路径，用于提取音频，留空不使用
+ffmpeg_path = ""

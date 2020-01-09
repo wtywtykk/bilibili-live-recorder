@@ -1,5 +1,7 @@
 __pycache__
 .idea
-*.flv
+files
+tmp
 config.py
 run.bat
+ffmpeg-4.2.2-amd64-static
