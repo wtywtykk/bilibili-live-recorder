@@ -1,5 +1,7 @@
 # 直播间ID （dict）
 rooms = {'1111111':'name','222222':'name2'}
+# 需要转换mp3的直播间别名
+convert_rooms = {'name'}
 # env,终端环境有时只支持ascii
 env = "origin"
 # 检测是否开播间隔(秒)

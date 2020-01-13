@@ -82,12 +82,13 @@ class BiliBiliLiveRecorder(BiliBiliLive):
         try:
             self.print(env_lang.get("msg.recording") + self.room_id)
             record_path=output_path.get(".flv")
-            subprocess.call("wget -U \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36\" --referer \"https://live.bilibili.com/" + self.room_id + "\" -O \"" + record_path + "\" \"" + record_url + "\"",shell=True)
+            subprocess.call("wget --timeout=60 -U \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36\" --referer \"https://live.bilibili.com/" + self.room_id + "\" -O \"" + record_path + "\" \"" + record_url + "\"",shell=True)
             if os.path.exists(record_path):
                 if os.path.getsize(record_path):
-                    if len(config.ffmpeg_path):
-                        convert_task = multiprocessing.Process(target=AudioConverter(output_path).run)
-                        convert_task.start()
+                    if config.rooms[self.room_id] in config.convert_rooms:
+                        if len(config.ffmpeg_path):
+                            convert_task = multiprocessing.Process(target=AudioConverter(output_path).run)
+                            convert_task.start()
                     self.savename(output_path)
                 else:
                     os.remove(record_path)

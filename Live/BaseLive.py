@@ -18,9 +18,9 @@ class BaseLive:
     def common_request(self, method, url, params=None, data=None):
         connection = None
         if method == 'GET':
-            connection = self.session.get(url, headers=self.headers, params=params, verify=False)
+            connection = self.session.get(url, headers=self.headers, params=params, verify=False, timeout=(30,60))
         if method == 'POST':
-            connection = self.session.post(url, headers=self.headers, params=params, data=data, verify=False)
+            connection = self.session.post(url, headers=self.headers, params=params, data=data, verify=False, timeout=(30,60))
         return connection
 
     def get_room_info(self):
