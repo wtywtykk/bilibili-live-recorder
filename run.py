@@ -82,7 +82,8 @@ class BiliBiliLiveRecorder(BiliBiliLive):
         try:
             self.print(env_lang.get("msg.recording") + self.room_id)
             record_path=output_path.get(".flv")
-            subprocess.call("wget --timeout=60 -U \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36\" --referer \"https://live.bilibili.com/" + self.room_id + "\" -O \"" + record_path + "\" \"" + record_url + "\"",shell=True)
+            subprocess.call("wget --timeout=5 -t 2 -U \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36\" --referer \"https://live.bilibili.com/" + self.room_id + "\" -O \"" + record_path + "\" \"" + record_url + "\"",shell=True)
+            time.sleep(1)
             if os.path.exists(record_path):
                 if os.path.getsize(record_path):
                     if config.rooms[self.room_id] in config.convert_rooms:
